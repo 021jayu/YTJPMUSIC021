@@ -1,222 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Home – JAYU STR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAYU STR Music</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: white;
     }
 
     header {
-      background: #1DB954;
-      padding: 15px 20px;
-      color: black;
+      background-color: #1db954;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    header nav a {
-      color: black;
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    nav a {
+      color: white;
       text-decoration: none;
-      margin: 0 10px;
+      margin-left: 20px;
       font-weight: bold;
     }
 
-    h2 {
+    .categories,
+    .latest-songs {
       text-align: center;
-      margin: 20px 0;
-      color: #1DB954;
+      margin-top: 20px;
     }
 
-    .categories {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .category {
-      background: #1e1e1e;
+    .filter-btn {
       padding: 10px 20px;
-      border-radius: 10px;
+      margin: 5px;
+      background-color: #1e1e1e;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: all 0.3s;
-      border: 2px solid transparent;
     }
 
-    .category:hover {
-      background: #1DB954;
-      color: black;
-      transform: scale(1.05);
-      border-color: #fff;
+    .filter-btn:hover {
+      background-color: #1db954;
     }
 
-    .song-list {
+    .songs-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
-      padding: 0 20px 40px;
+      padding: 20px;
     }
 
     .song-card {
       background: #1e1e1e;
       border-radius: 10px;
       overflow: hidden;
-      transition: transform 0.3s;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
     }
 
     .song-card:hover {
-      transform: scale(1.03);
+      transform: translateY(-5px);
     }
 
-    .thumbnail {
+    .song-thumbnail {
       width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
-
-    .song-info {
-      padding: 10px 15px;
-    }
-
-    .song-info h4 {
-      margin: 0;
-      color: #1DB954;
-      font-size: 18px;
-    }
-
-    .song-info small {
-      color: #aaa;
+      height: auto;
       display: block;
     }
 
-    .actions {
+    .song-info {
+      padding: 15px;
+    }
+
+    .song-info h3 {
+      color: #1db954;
+      margin: 0;
+      font-size: 1.1em;
+    }
+
+    .song-info p {
+      font-size: 0.9em;
+      margin: 5px 0;
+    }
+
+    .song-actions {
       margin-top: 10px;
     }
 
-    .actions a {
-      background: #1DB954;
-      color: black;
-      padding: 7px 12px;
-      border-radius: 5px;
-      text-decoration: none;
+    .song-actions .btn {
       margin-right: 10px;
-      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 5px;
+      background-color: #1db954;
+      color: white;
+      text-decoration: none;
       font-weight: bold;
-    }
-
-    .actions a:hover {
-      background: #fff;
-      color: black;
     }
   </style>
 </head>
+
 <body>
+  <header>
+    <h1>🎵 JAYU STR Music</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#">Categories</a>
+      <a href="admin.html">Admin</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
 
-<header>
-  <div><strong>🎵 JAYU STR Music</strong></div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="categories.html">Categories</a>
-    <a href="admin.html">Admin</a>
-    <a href="profile.html">Profile</a>
-  </nav>
-</header>
+  <div class="categories">
+    <h2>Categories</h2>
+    <button class="filter-btn">All</button>
+    <button class="filter-btn">Timli</button>
+    <button class="filter-btn">Hindi</button>
+    <button class="filter-btn">EDM Mix</button>
+    <button class="filter-btn">Chill Out</button>
+    <button class="filter-btn">Mashup</button>
+  </div>
 
-<h2>Categories</h2>
-<div class="categories">
-  <div class="category" onclick="filterSongs('All')">All</div>
-  <div class="category" onclick="filterSongs('Timli')">Timli</div>
-  <div class="category" onclick="filterSongs('Hindi')">Hindi</div>
-  <div class="category" onclick="filterSongs('EDM')">EDM Mix</div>
-  <div class="category" onclick="filterSongs('Chill')">Chill Out</div>
-  <div class="category" onclick="filterSongs('Mashup')">Mashup</div>
-</div>
+  <div class="latest-songs">
+    <h2>Latest Songs</h2>
+    <div class="songs-container" id="songsContainer">
+      <!-- Songs will be inserted here dynamically -->
+    </div>
+  </div>
 
-<h2>Latest Songs</h2>
-<div class="song-list" id="songList"></div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      databaseURL: "https://ytpmusic021-default-rtdb.firebaseio.com/",
+      apiKey: "AIzaSyCNZKhQGfqUR57t-w5PN4RVUeM5z_HxSmg",
+      authDomain: "ytpmusic021.firebaseapp.com",
+      projectId: "ytpmusic021",
+      storageBucket: "ytpmusic021.appspot.com",
+      messagingSenderId: "1038592098663",
+      appId: "1:1038592098663:web:e8852a6e8cf1fc72c8ae6e"
+    };
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAr_hNAJ1VsC-n77tcwcc1L2gVhD_WJf7E",
-    authDomain: "ytmusicdownload-d7404.firebaseapp.com",
-    projectId: "ytmusicdownload-d7404",
-    databaseURL: "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com",
-    appId: "1:854569253804:web:74031abd5082ccaca41809"
-  };
+    db.ref("songs").on("value", (snapshot) => {
+      const songsContainer = document.getElementById("songsContainer");
+      songsContainer.innerHTML = "";
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  const songsRef = db.ref('songs');
+      snapshot.forEach((childSnapshot) => {
+        const songData = childSnapshot.val();
+        const songCard = document.createElement("div");
+        songCard.className = "song-card";
 
-  let allSongs = [];
+        const songName = songData.name || "Unknown Title";
+        const youtubeID = songData.youtubeID || "";
+        const thumbnailURL = youtubeID ? `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg` : "default.jpg";
 
-  function listSongs(category = "All") {
-    songsRef.once('value', snap => {
-      const list = document.getElementById('songList');
-      list.innerHTML = '';
-      allSongs = [];
-
-      snap.forEach(child => {
-        const song = child.val();
-        allSongs.push(song);
-      });
-
-      const filtered = category === "All" ? allSongs : allSongs.filter(song => song.category === category);
-
-      if (filtered.length === 0) {
-        list.innerHTML = "<p>No songs available in this category.</p>";
-        return;
-      }
-
-      filtered.reverse().forEach(song => {
-        const videoId = song.id;
-        const thumbnailURL = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-        const div = document.createElement('div');
-        div.className = 'song-card';
-        div.innerHTML = `
-          <img class="thumbnail" src="${thumbnailURL}" alt="Thumbnail">
+        songCard.innerHTML = `
+          <img src="${thumbnailURL}" alt="${songName}" class="song-thumbnail" />
           <div class="song-info">
-            <h4>${song.name}</h4>
-            <small>Artist: ${song.artist}</small>
-            <small>Category: ${song.category}</small>
-            <small>Date: ${song.date}</small>
-            <div class="actions">
-              <a href="https://drive.google.com/uc?export=download&id=${extractDriveId(song.driveLink)}" target="_blank">Download MP3</a>
-              <a href="https://www.youtube.com/watch?v=${song.id}" target="_blank">Watch</a>
+            <h3>${songName}</h3>
+            <p><strong>Artist:</strong> ${songData.artist || "Unknown"}</p>
+            <p><strong>Category:</strong> ${songData.category || "Uncategorized"}</p>
+            <p><strong>Date:</strong> ${songData.date || "N/A"}</p>
+            <div class="song-actions">
+              <a href="${songData.driveLink || "#"}" class="btn" target="_blank">Download MP3</a>
+              <a href="https://www.youtube.com/watch?v=${youtubeID}" class="btn" target="_blank">Watch</a>
             </div>
           </div>
         `;
-        list.appendChild(div);
+
+        songsContainer.appendChild(songCard);
       });
     });
-  }
-
-  function extractDriveId(link) {
-    const match = link.match(/[-\w]{25,}/);
-    return match ? match[0] : "";
-  }
-
-  function filterSongs(category) {
-    listSongs(category);
-  }
-
-  // Load songs on page load
-  listSongs();
-</script>
-
+  </script>
 </body>
+
 </html>
