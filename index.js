@@ -41,3 +41,28 @@ function likeSong(songId) {
 }
 
 window.onload = fetchSongs;
+
+
+// Inside your Firebase data fetch loop
+const songCard = document.createElement("div");
+songCard.className = "song-card";
+
+// Fallback values if something is missing
+const songName = songData.name || "Unknown Title";
+const youtubeID = songData.youtubeID || "";
+const thumbnailURL = youtubeID ? `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg` : "default.jpg";
+
+songCard.innerHTML = `
+  <img src="${thumbnailURL}" alt="${songName}" class="song-thumbnail" />
+  <div class="song-info">
+    <h3>${songName}</h3>
+    <p><strong>Artist:</strong> ${songData.artist || "Unknown"}</p>
+    <p><strong>Category:</strong> ${songData.category || "Uncategorized"}</p>
+    <p><strong>Date:</strong> ${songData.date || "N/A"}</p>
+    <div class="song-actions">
+      <a href="${songData.driveLink || "#"}" class="btn green" target="_blank">Download MP3</a>
+      <a href="https://www.youtube.com/watch?v=${youtubeID}" class="btn green" target="_blank">Watch</a>
+    </div>
+  </div>
+`;
+
