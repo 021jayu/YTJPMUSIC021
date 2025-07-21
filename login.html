@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - YT Music</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #1c1c1c;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,255,128,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1DB954;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background: #333;
+      color: #fff;
+    }
+
+    input:focus {
+      outline: 2px solid #1DB954;
+    }
+
+    button {
+      width: 100%;
+      background: #1DB954;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #17a74a;
+      transform: scale(1.03);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .register-link a {
+      color: #1DB954;
+      text-decoration: none;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <div class="register-link">
+      Don't have an account? <a href="registration.html">Register here</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAr_hNAJ1VsC-n77tcwcc1L2gVhD_WJf7E",
+      authDomain: "ytmusicdownload-d7404.firebaseapp.com",
+      projectId: "ytmusicdownload-d7404",
+      databaseURL: "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com",
+      storageBucket: "ytmusicdownload-d7404.appspot.com",
+      messagingSenderId: "854569253804",
+      appId: "1:854569253804:web:74031abd5082ccaca41809",
+      measurementId: "G-KTBN19GM4E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const dbRef = ref(db);
+      get(child(dbRef, "users")).then(snapshot => {
+        if (snapshot.exists()) {
+          const users = snapshot.val();
+          let found = false;
+
+          Object.values(users).forEach(user => {
+            if (user.email === email && user.password === password) {
+              localStorage.setItem("user", JSON.stringify(user));
+              window.location.href = "index.html";
+              found = true;
+            }
+          });
+
+          if (!found) alert("Invalid credentials!");
+        } else {
+          alert("No users found.");
+        }
+      });
+    }
+
+    window.login = login;
+  </script>
+</body>
+</html>
