@@ -12,6 +12,7 @@
       margin: 0;
       padding: 0;
     }
+
     header {
       background: #1DB954;
       padding: 15px 20px;
@@ -20,17 +21,20 @@
       justify-content: space-between;
       align-items: center;
     }
+
     header nav a {
       color: black;
       text-decoration: none;
       margin: 0 10px;
       font-weight: bold;
     }
+
     h2 {
       text-align: center;
       margin: 20px 0;
       color: #1DB954;
     }
+
     .categories {
       display: flex;
       flex-wrap: wrap;
@@ -38,61 +42,81 @@
       gap: 15px;
       margin-bottom: 30px;
     }
+
     .category {
       background: #1e1e1e;
-      padding: 15px 25px;
+      padding: 10px 20px;
       border-radius: 10px;
-      transition: 0.3s;
       cursor: pointer;
-      text-align: center;
+      transition: all 0.3s;
       border: 2px solid transparent;
     }
+
     .category:hover {
-      background-color: #1DB954;
-      color: #000;
-      transform: scale(1.1);
+      background: #1DB954;
+      color: black;
+      transform: scale(1.05);
       border-color: #fff;
     }
+
     .song-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 20px 40px;
     }
-    .song-item {
+
+    .song-card {
       background: #1e1e1e;
-      width: 100%;
-      max-width: 700px;
-      padding: 20px;
-      margin: 10px 0;
       border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      overflow: hidden;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
-    .song-item h4 {
+
+    .song-card:hover {
+      transform: scale(1.03);
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .song-info {
+      padding: 10px 15px;
+    }
+
+    .song-info h4 {
       margin: 0;
-      font-size: 18px;
       color: #1DB954;
+      font-size: 18px;
     }
-    .song-item small {
-      display: block;
-      font-size: 14px;
+
+    .song-info small {
       color: #aaa;
+      display: block;
     }
+
+    .actions {
+      margin-top: 10px;
+    }
+
     .actions a {
       background: #1DB954;
-      padding: 8px 14px;
-      border-radius: 5px;
-      margin: 5px;
-      text-decoration: none;
       color: black;
-      font-weight: bold;
+      padding: 7px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-right: 10px;
       display: inline-block;
+      font-weight: bold;
     }
+
     .actions a:hover {
       background: #fff;
-      color: #000;
+      color: black;
     }
   </style>
 </head>
@@ -121,7 +145,7 @@
 <h2>Latest Songs</h2>
 <div class="song-list" id="songList"></div>
 
-<!-- Firebase Scripts -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
@@ -133,6 +157,7 @@
     databaseURL: "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com",
     appId: "1:854569253804:web:74031abd5082ccaca41809"
   };
+
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   const songsRef = db.ref('songs');
@@ -158,18 +183,21 @@
       }
 
       filtered.reverse().forEach(song => {
+        const videoId = song.id;
+        const thumbnailURL = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
         const div = document.createElement('div');
-        div.className = 'song-item';
+        div.className = 'song-card';
         div.innerHTML = `
-          <div>
+          <img class="thumbnail" src="${thumbnailURL}" alt="Thumbnail">
+          <div class="song-info">
             <h4>${song.name}</h4>
             <small>Artist: ${song.artist}</small>
             <small>Category: ${song.category}</small>
             <small>Date: ${song.date}</small>
-          </div>
-          <div class="actions">
-            <a href="https://drive.google.com/uc?export=download&id=${extractDriveId(song.driveLink)}" target="_blank">Download MP3</a>
-            <a href="https://www.youtube.com/watch?v=${song.id}" target="_blank">Play on YouTube</a>
+            <div class="actions">
+              <a href="https://drive.google.com/uc?export=download&id=${extractDriveId(song.driveLink)}" target="_blank">Download MP3</a>
+              <a href="https://www.youtube.com/watch?v=${song.id}" target="_blank">Watch</a>
+            </div>
           </div>
         `;
         list.appendChild(div);
@@ -186,7 +214,7 @@
     listSongs(category);
   }
 
-  // Initial load
+  // Load songs on page load
   listSongs();
 </script>
 
