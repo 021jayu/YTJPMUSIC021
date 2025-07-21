@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile – JAYU STR</title>
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1DB954;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+    nav a {
+      color: black;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    h2 {
+      color: #1DB954;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .info-box {
+      background: #1e1e1e;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    .info-box p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .logout-btn {
+      background: #ff4444;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div><strong>🎵 JAYU STR Music</strong></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="categories.html">Categories</a>
+    <a href="admin.html">Admin</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<h2>Welcome to Your Profile</h2>
+
+<div class="info-box">
+  <p><strong>Name:</strong> <span id="name"></span></p>
+  <p><strong>Email:</strong> <span id="email"></span></p>
+  <p><strong>Mobile:</strong> <span id="mobile"></span></p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAr_hNAJ1VsC-n77tcwcc1L2gVhD_WJf7E",
+    authDomain: "ytmusicdownload-d7404.firebaseapp.com",
+    projectId: "ytmusicdownload-d7404",
+    databaseURL: "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com",
+    appId: "1:854569253804:web:74031abd5082ccaca41809"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // Load user from localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user) {
+    document.getElementById("name").textContent = user.name;
+    document.getElementById("email").textContent = user.email;
+    document.getElementById("mobile").textContent = user.mobile;
+  } else {
+    alert("Login Required");
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

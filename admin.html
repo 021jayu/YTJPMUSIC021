@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - JAYU STR</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #121212; color: white; padding: 20px; }
+    h2 { text-align: center; color: #1DB954; }
+    .form-container { max-width: 600px; margin: auto; background: #1c1c1c; padding: 20px; border-radius: 10px; }
+    label { display: block; margin-top: 10px; }
+    input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: none; }
+    button { background: #1DB954; color: white; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    .song-list { margin-top: 40px; }
+    .song-item { background: #2a2a2a; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; }
+    .delete-btn { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+  </style>
+  <script>
+    const allowedPassword = "jayustr@123";
+    const userPassword = prompt("Enter admin password:");
+    if (userPassword !== allowedPassword) {
+      alert("Incorrect password! Redirecting to homepage...");
+      window.location.href = "index.html";
+    }
+  </script>
+</head>
+<body>
+  <h2>Admin Song Upload Panel</h2>
+  <div class="form-container">
+    <label>Song Title</label>
+    <input type="text" id="songTitle" placeholder="e.g., My Song Name">
+    <label>YouTube Video ID</label>
+    <input type="text" id="youtubeId" placeholder="e.g., dQw4w9WgXcQ">
+    <label>Google Drive MP3 Link</label>
+    <input type="text" id="driveLink" placeholder="https://drive.google.com/uc?...">
+    <label>Artist/Singer Name</label>
+    <input type="text" id="artist" placeholder="e.g., Arijit Singh">
+    <label>Category</label>
+    <select id="category">
+      <option value="Timli">Timli</option>
+      <option value="Hindi">Hindi</option>
+      <option value="EDM Mix">EDM Mix</option>
+      <option value="Chill Out Mix">Chill Out Mix</option>
+      <option value="Mashup">Mashup</option>
+    </select>
+    <label>Date</label>
+    <input type="date" id="uploadDate">
+    <button onclick="uploadSong()">Upload Song</button>
+  </div>
+
+  <div class="song-list" id="songList"></div>
+
+  <script>
+    const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs";
+
+    function uploadSong() {
+      const song = {
+        title: document.getElementById("songTitle").value,
+        youtubeId: document.getElementById("youtubeId").value,
+        driveLink: document.getElementById("driveLink").value,
+        artist: document.getElementById("artist").value,
+        category: document.getElementById("category").value,
+        date: document.getElementById("uploadDate").value
+      };
+
+      fetch(firebaseUrl + ".json", {
+        method: "POST",
+        body: JSON.stringify(song)
+      }).then(() => {
+        alert("Song uploaded successfully!");
+        loadSongs();
+      });
+    }
+
+    function loadSongs() {
+      fetch(firebaseUrl + ".json")
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById("songList");
+          list.innerHTML = "";
+          if (data) {
+            Object.entries(data).forEach(([key, song]) => {
+              const item = document.createElement("div");
+              item.className = "song-item";
+              item.innerHTML = `
+                <span>${song.title} - ${song.artist} (${song.category})</span>
+                <button class="delete-btn" onclick="deleteSong('${key}')">Delete</button>
+              `;
+              list.appendChild(item);
+            });
+          }
+        });
+    }
+
+    function deleteSong(key) {
+      fetch(`${firebaseUrl}/${key}.json`, { method: "DELETE" }).then(() => loadSongs());
+    }
+
+    window.onload = loadSongs;
+  </script>
+</body>
+</html>

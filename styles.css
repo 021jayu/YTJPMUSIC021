@@ -1,0 +1,55 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: #fff;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #1DB954;
+}
+.nav-links a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.nav-links a:hover {
+  color: #000;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.container {
+  padding: 20px;
+}
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+.song-card {
+  background: #282828;
+  padding: 15px;
+  border-radius: 8px;
+}
+.song-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+.song-actions {
+  margin-top: 10px;
+}
+.song-actions a, .like-btn {
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #1DB954;
+}
+.like-btn:hover {
+  color: red;
+}
