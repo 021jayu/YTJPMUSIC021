@@ -10,21 +10,56 @@
       color: white;
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+    }
+
+    header {
+      background: #1DB954;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    header h2 {
+      margin: 0;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav a, select {
+      background: white;
+      color: #1DB954;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    nav a:hover, select:hover {
+      background: #d8f8e1;
     }
 
     h1 {
       color: #1DB954;
       text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 30px;
+      font-size: 2rem;
+      margin: 20px 0;
     }
 
     .song-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 10px;
+      padding: 10px 20px 40px;
     }
 
     .song-box {
@@ -32,7 +67,7 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 0 15px #1db95444;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .song-box:hover {
@@ -42,10 +77,8 @@
 
     .thumbnail {
       width: 100%;
-      height: auto;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      border-bottom: 1px solid #1db95433;
     }
 
     .song-details {
@@ -53,14 +86,14 @@
     }
 
     .song-details h3 {
-      color: #1DB954;
       margin: 0 0 8px;
       font-size: 1.1rem;
+      color: #1DB954;
     }
 
     .song-details p {
-      font-size: 0.9rem;
       margin: 4px 0;
+      font-size: 0.9rem;
       color: #ccc;
     }
 
@@ -80,56 +113,93 @@
       border-radius: 5px;
       font-weight: bold;
       font-size: 0.85rem;
-      transition: background 0.2s ease;
     }
 
     .btn-group a:hover {
-      background: #1aa34a;
+      background: #16994a;
     }
 
-    .like {
-      background: #ff4444 !important;
+    .category-filter {
+      margin: 10px auto 30px;
+      text-align: center;
+    }
+
+    .category-filter select {
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
+
+  <header>
+    <h2>🎧 Jayu STR Music</h2>
+    <nav>
+      <a href="index.html">Home</a>
+      <select id="categoryDropdown">
+        <option value="All">All Categories</option>
+        <option value="Timli">Timli</option>
+        <option value="Hindi">Hindi</option>
+        <option value="EDM Mix">EDM Mix</option>
+        <option value="Chill Out Mix">Chill Out Mix</option>
+        <option value="Mashup">Mashup</option>
+      </select>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
   <h1>🎵 Music Gallery 🎵</h1>
+
   <div class="song-container" id="songContainer"></div>
 
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
+    const container = document.getElementById("songContainer");
+    const dropdown = document.getElementById("categoryDropdown");
+
+    function renderSongs(data, filter = "All") {
+      container.innerHTML = "";
+      if (!data) {
+        container.innerHTML = "<p>No songs uploaded yet.</p>";
+        return;
+      }
+
+      Object.values(data).forEach(song => {
+        const title = song.title || "Untitled";
+        const artist = song.artist || "Unknown Artist";
+        const category = song.category || "Uncategorized";
+        const driveLink = song.driveLink || "#";
+        const youtubeId = song.youtubeId || "";
+
+        if (filter !== "All" && category !== filter) return;
+
+        const box = document.createElement("div");
+        box.className = "song-box";
+        box.innerHTML = `
+          <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
+          <div class="song-details">
+            <h3>${title}</h3>
+            <p>🎤 ${artist}</p>
+            <p>📁 ${category}</p>
+            <div class="btn-group">
+              <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
+              <a href="${driveLink}" target="_blank">⬇️ MP3</a>
+            </div>
+          </div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
     fetch(firebaseUrl)
       .then(res => res.json())
       .then(data => {
-        const container = document.getElementById("songContainer");
-        if (!data) {
-          container.innerHTML = "<p>No songs uploaded yet.</p>";
-          return;
-        }
+        renderSongs(data);
 
-        Object.values(data).forEach(song => {
-          const title = song.title || "Untitled Song";
-          const artist = song.artist || "Unknown Artist";
-          const category = song.category || "Uncategorized";
-          const driveLink = song.driveLink || "#";
-          const youtubeId = song.youtubeId || "";
-
-          const box = document.createElement("div");
-          box.className = "song-box";
-          box.innerHTML = `
-            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
-            <div class="song-details">
-              <h3>${title}</h3>
-              <p>🎤 ${artist}</p>
-              <p>📁 ${category}</p>
-              <div class="btn-group">
-                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
-                <a href="${driveLink}" target="_blank">⬇️ MP3</a>
-              </div>
-            </div>
-          `;
-          container.appendChild(box);
+        dropdown.addEventListener("change", () => {
+          renderSongs(data, dropdown.value);
         });
       });
   </script>
