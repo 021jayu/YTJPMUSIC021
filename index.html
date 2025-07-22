@@ -10,56 +10,66 @@
       color: white;
       font-family: Arial, sans-serif;
       margin: 0;
+      padding: 0;
     }
 
-    header {
+    nav {
       background: #1DB954;
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
     }
 
-    header h2 {
-      margin: 0;
-      color: white;
-    }
-
-    nav {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    nav a, select {
-      background: white;
-      color: #1DB954;
+    nav .logo {
       font-weight: bold;
-      text-decoration: none;
-      border-radius: 5px;
-      padding: 6px 12px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
+      font-size: 1.2rem;
+      color: black;
     }
 
-    nav a:hover, select:hover {
-      background: #d8f8e1;
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+
+    nav .menu a:hover {
+      text-decoration: underline;
     }
 
     h1 {
       color: #1DB954;
       text-align: center;
       font-size: 2rem;
-      margin: 20px 0;
+      margin: 25px 0 10px;
+    }
+
+    .categories {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .categories button {
+      margin: 5px;
+      padding: 8px 15px;
+      background: #1DB954;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .categories button:hover {
+      background: #159f48;
     }
 
     .song-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 10px 20px 40px;
+      padding: 10px 20px 30px;
     }
 
     .song-box {
@@ -67,7 +77,7 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 0 15px #1db95444;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .song-box:hover {
@@ -86,14 +96,14 @@
     }
 
     .song-details h3 {
+      color: #1DB954;
       margin: 0 0 8px;
       font-size: 1.1rem;
-      color: #1DB954;
     }
 
     .song-details p {
-      margin: 4px 0;
       font-size: 0.9rem;
+      margin: 4px 0;
       color: #ccc;
     }
 
@@ -113,67 +123,72 @@
       border-radius: 5px;
       font-weight: bold;
       font-size: 0.85rem;
+      transition: background 0.2s ease;
     }
 
     .btn-group a:hover {
-      background: #16994a;
+      background: #1aa34a;
     }
 
-    .category-filter {
-      margin: 10px auto 30px;
-      text-align: center;
-    }
-
-    .category-filter select {
-      padding: 8px;
-      font-size: 1rem;
-      border-radius: 5px;
+    .like {
+      background: #ff4444 !important;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h2>🎧 Jayu STR Music</h2>
-    <nav>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">🎶 Jayu STR</div>
+    <div class="menu">
       <a href="index.html">Home</a>
-      <select id="categoryDropdown">
-        <option value="All">All Categories</option>
-        <option value="Timli">Timli</option>
-        <option value="Hindi">Hindi</option>
-        <option value="EDM Mix">EDM Mix</option>
-        <option value="Chill Out Mix">Chill Out Mix</option>
-        <option value="Mashup">Mashup</option>
-      </select>
+      <a href="categories.html">Categories</a>
       <a href="login.html">Login</a>
-    </nav>
-  </header>
+      <a href="profile.html">Profile</a>
+      <a href="admin.html">Admin</a>
+    </div>
+  </nav>
 
   <h1>🎵 Music Gallery 🎵</h1>
+
+  <!-- Categories -->
+  <div class="categories">
+    <button onclick="filterSongs('All')">All</button>
+    <button onclick="filterSongs('Timli')">Timli</button>
+    <button onclick="filterSongs('Hindi')">Hindi</button>
+    <button onclick="filterSongs('EDM Mix')">EDM Mix</button>
+    <button onclick="filterSongs('Chill Out Mix')">Chill Out Mix</button>
+    <button onclick="filterSongs('Mashup')">Mashup</button>
+  </div>
 
   <div class="song-container" id="songContainer"></div>
 
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
+    let allSongs = [];
 
-    const container = document.getElementById("songContainer");
-    const dropdown = document.getElementById("categoryDropdown");
+    fetch(firebaseUrl)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("songContainer");
+        if (!data) {
+          container.innerHTML = "<p>No songs uploaded yet.</p>";
+          return;
+        }
 
-    function renderSongs(data, filter = "All") {
+        allSongs = Object.values(data);
+        displaySongs(allSongs);
+      });
+
+    function displaySongs(songs) {
+      const container = document.getElementById("songContainer");
       container.innerHTML = "";
-      if (!data) {
-        container.innerHTML = "<p>No songs uploaded yet.</p>";
-        return;
-      }
 
-      Object.values(data).forEach(song => {
-        const title = song.title || "Untitled";
+      songs.forEach(song => {
+        const title = song.title || "Untitled Song";
         const artist = song.artist || "Unknown Artist";
         const category = song.category || "Uncategorized";
         const driveLink = song.driveLink || "#";
         const youtubeId = song.youtubeId || "";
-
-        if (filter !== "All" && category !== filter) return;
 
         const box = document.createElement("div");
         box.className = "song-box";
@@ -193,15 +208,14 @@
       });
     }
 
-    fetch(firebaseUrl)
-      .then(res => res.json())
-      .then(data => {
-        renderSongs(data);
-
-        dropdown.addEventListener("change", () => {
-          renderSongs(data, dropdown.value);
-        });
-      });
+    function filterSongs(category) {
+      if (category === "All") {
+        displaySongs(allSongs);
+      } else {
+        const filtered = allSongs.filter(song => (song.category || "").toLowerCase() === category.toLowerCase());
+        displaySongs(filtered);
+      }
+    }
   </script>
 </body>
 </html>
