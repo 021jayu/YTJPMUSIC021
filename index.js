@@ -1,4 +1,4 @@
-
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAr_hNAJ1VsC-n77tcwcc1L2gVhD_WJf7E",
   authDomain: "ytmusicdownload-d7404.firebaseapp.com",
@@ -13,6 +13,31 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// Upload Song
+document.getElementById("uploadForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const songData = {
+    name: document.getElementById("songName").value,
+    youtubeID: document.getElementById("youtubeID").value,
+    driveLink: document.getElementById("driveLink").value,
+    artist: document.getElementById("artistName").value || "Unknown",
+    category: document.getElementById("category").value || "Uncategorized",
+    date: new Date().toLocaleDateString("en-IN")
+  };
+
+  db.ref("songs").push(songData)
+    .then(() => {
+      alert("✅ Song uploaded!");
+      document.getElementById("uploadForm").reset();
+      fetchSongs();
+    })
+    .catch((error) => {
+      console.error("❌ Error uploading song: ", error);
+    });
+});
+
+// Fetch & Display Songs
 function fetchSongs() {
   db.ref("songs").once("value", snapshot => {
     const songs = snapshot.val();
@@ -21,48 +46,37 @@ function fetchSongs() {
 
     for (let id in songs) {
       const song = songs[id];
-      const card = document.createElement("div");
-      card.className = "song-card";
-      card.innerHTML = `
-        <div class="song-title">${song.title} - ${song.artist || "Unknown"}</div>
-        <div class="song-actions">
-          <a href="https://www.youtube.com/watch?v=${song.id}" target="_blank">▶️ YouTube</a>
-          <a href="${song.driveLink}" target="_blank">⬇️ MP3</a>
-          <button class="like-btn" onclick="likeSong('${id}')">❤️ Like</button>
+      const songName = song.name || "Unknown Title";
+      const youtubeID = song.youtubeID || "";
+      const thumbnailURL = youtubeID
+        ? `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`
+        : "default.jpg";
+
+      const songCard = document.createElement("div");
+      songCard.className = "song-card";
+      songCard.innerHTML = `
+        <img src="${thumbnailURL}" alt="${songName}" class="song-thumbnail" />
+        <div class="song-info">
+          <h3>${songName}</h3>
+          <p><strong>Artist:</strong> ${song.artist}</p>
+          <p><strong>Category:</strong> ${song.category}</p>
+          <p><strong>Date:</strong> ${song.date}</p>
+          <div class="song-actions">
+            <a href="${song.driveLink}" target="_blank">⬇️ MP3</a>
+            <a href="https://www.youtube.com/watch?v=${youtubeID}" target="_blank">▶️ Watch</a>
+            <button onclick="likeSong('${id}')">❤️ Like</button>
+          </div>
         </div>
       `;
-      container.appendChild(card);
+      container.appendChild(songCard);
     }
   });
 }
 
+// Like button (demo alert)
 function likeSong(songId) {
-  alert("Liked song ID: " + songId);
+  alert("❤️ Liked song: " + songId);
 }
 
+// Load songs on start
 window.onload = fetchSongs;
-
-
-// Inside your Firebase data fetch loop
-const songCard = document.createElement("div");
-songCard.className = "song-card";
-
-// Fallback values if something is missing
-const songName = songData.name || "Unknown Title";
-const youtubeID = songData.youtubeID || "";
-const thumbnailURL = youtubeID ? `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg` : "default.jpg";
-
-songCard.innerHTML = `
-  <img src="${thumbnailURL}" alt="${songName}" class="song-thumbnail" />
-  <div class="song-info">
-    <h3>${songName}</h3>
-    <p><strong>Artist:</strong> ${songData.artist || "Unknown"}</p>
-    <p><strong>Category:</strong> ${songData.category || "Uncategorized"}</p>
-    <p><strong>Date:</strong> ${songData.date || "N/A"}</p>
-    <div class="song-actions">
-      <a href="${songData.driveLink || "#"}" class="btn green" target="_blank">Download MP3</a>
-      <a href="https://www.youtube.com/watch?v=${youtubeID}" class="btn green" target="_blank">Watch</a>
-    </div>
-  </div>
-`;
-
