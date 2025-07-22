@@ -1,107 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jayu STR Music</title>
+  <title>Music Gallery</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ff99;
-    }
-
-    form {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 600px;
-      margin: 20px auto;
-    }
-
-    form input, form button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 8px;
-    }
-
-    form input {
-      background: #333;
-      color: white;
-    }
-
-    form button {
-      background: #00cc66;
-      color: white;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      background: #00994d;
-    }
-
-    .song-card {
-      display: flex;
-      background: #1e1e1e;
-      margin: 15px auto;
-      padding: 15px;
-      border-radius: 10px;
-      color: white;
-      max-width: 800px;
-    }
-
-    .song-thumbnail {
-      width: 160px;
-      height: 90px;
-      border-radius: 8px;
-      margin-right: 15px;
-    }
-
-    .song-info {
-      flex: 1;
-    }
-
-    .song-actions a, .song-actions button {
-      display: inline-block;
-      margin: 5px 5px 0 0;
-      padding: 6px 12px;
-      background: #00cc66;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    .song-actions a:hover, .song-actions button:hover {
-      background: #00994d;
-    }
+    body { background: #0f0f0f; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    h1 { color: #1DB954; text-align: center; }
+    .song-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
+    .song-box { background: #1c1c1c; border-radius: 10px; padding: 15px; width: 250px; box-shadow: 0 0 10px #1DB95440; transition: transform 0.3s; }
+    .song-box:hover { transform: scale(1.05); }
+    .song-box h3 { margin: 0 0 5px; color: #1DB954; }
+    .song-box p { margin: 5px 0; font-size: 0.9em; }
+    .btn-group { margin-top: 10px; display: flex; gap: 10px; }
+    .btn-group a { flex: 1; padding: 8px; background: #1DB954; text-align: center; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+    .like { background: #ff4444 !important; }
   </style>
 </head>
 <body>
-  <h1>🎶 Jayu STR Music Upload</h1>
+  <h1>🎵 Music Gallery 🎵</h1>
+  <div class="song-container" id="songContainer"></div>
 
-  <form id="uploadForm">
-    <input type="text" id="songName" placeholder="Song Name" required />
-    <input type="text" id="youtubeID" placeholder="YouTube Video ID" required />
-    <input type="text" id="driveLink" placeholder="Google Drive Link (MP3)" required />
-    <input type="text" id="artistName" placeholder="Artist/Singer Name" />
-    <input type="text" id="category" placeholder="Category (e.g., Timli, Hindi, Remix)" />
-    <button type="submit">Upload Song</button>
-  </form>
+  <script>
+    const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
-  <h2 style="text-align:center;">🎧 All Songs</h2>
-  <div id="songsList"></div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
-  <script src="index.js"></script>
+    fetch(firebaseUrl)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("songContainer");
+        if (!data) {
+          container.innerHTML = "<p>No songs uploaded yet.</p>";
+          return;
+        }
+        Object.values(data).forEach(song => {
+          const box = document.createElement("div");
+          box.className = "song-box";
+          box.innerHTML = `
+            <h3>${song.title}</h3>
+            <p>Artist: ${song.artist}</p>
+            <p>Category: ${song.category}</p>
+            <div class="btn-group">
+              <a href="https://www.youtube.com/watch?v=${song.youtubeId}" target="_blank">▶️ YouTube</a>
+              <a href="${song.driveLink}" target="_blank">⬇️ MP3</a>
+            </div>
+          `;
+          container.appendChild(box);
+        });
+      });
+  </script>
 </body>
 </html>
