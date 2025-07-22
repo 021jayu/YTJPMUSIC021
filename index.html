@@ -1,21 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Music Gallery</title>
   <style>
-    body { background: #0f0f0f; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-    h1 { color: #1DB954; text-align: center; }
-    .song-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
-    .song-box { background: #1c1c1c; border-radius: 10px; padding: 15px; width: 250px; box-shadow: 0 0 10px #1DB95440; transition: transform 0.3s; }
-    .song-box:hover { transform: scale(1.05); }
-    .song-box h3 { margin: 0 0 5px; color: #1DB954; }
-    .song-box p { margin: 5px 0; font-size: 0.9em; }
-    .btn-group { margin-top: 10px; display: flex; gap: 10px; }
-    .btn-group a { flex: 1; padding: 8px; background: #1DB954; text-align: center; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
-    .like { background: #ff4444 !important; }
+    body {
+      background: #0f0f0f;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #1DB954;
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+    }
+
+    .song-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+
+    .song-box {
+      background: #181818;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px #1db95444;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .song-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #1db954aa;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid #1db95433;
+    }
+
+    .song-details {
+      padding: 15px;
+    }
+
+    .song-details h3 {
+      color: #1DB954;
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .song-details p {
+      font-size: 0.9rem;
+      margin: 4px 0;
+      color: #ccc;
+    }
+
+    .btn-group {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-group a {
+      flex: 1;
+      padding: 8px;
+      background: #1DB954;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-group a:hover {
+      background: #1aa34a;
+    }
+
+    .like {
+      background: #ff4444 !important;
+    }
   </style>
 </head>
 <body>
@@ -33,16 +107,26 @@
           container.innerHTML = "<p>No songs uploaded yet.</p>";
           return;
         }
+
         Object.values(data).forEach(song => {
+          const title = song.title || "Untitled Song";
+          const artist = song.artist || "Unknown Artist";
+          const category = song.category || "Uncategorized";
+          const driveLink = song.driveLink || "#";
+          const youtubeId = song.youtubeId || "";
+
           const box = document.createElement("div");
           box.className = "song-box";
           box.innerHTML = `
-            <h3>${song.title}</h3>
-            <p>Artist: ${song.artist}</p>
-            <p>Category: ${song.category}</p>
-            <div class="btn-group">
-              <a href="https://www.youtube.com/watch?v=${song.youtubeId}" target="_blank">▶️ YouTube</a>
-              <a href="${song.driveLink}" target="_blank">⬇️ MP3</a>
+            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
+            <div class="song-details">
+              <h3>${title}</h3>
+              <p>🎤 ${artist}</p>
+              <p>📁 ${category}</p>
+              <div class="btn-group">
+                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
+                <a href="${driveLink}" target="_blank">⬇️ MP3</a>
+              </div>
             </div>
           `;
           container.appendChild(box);
