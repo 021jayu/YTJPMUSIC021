@@ -1,170 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Music Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAYU STR Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #0f0f0f;
-      color: white;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-    }
-
-    nav {
-      background: #1DB954;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav .logo {
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: black;
-    }
-
-    nav .menu a {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0f0f0f;
       color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-weight: bold;
-    }
+    }/* Navigation */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  z-index: 999;
+}
+.logo {
+  font-size: 1.5rem;
+  color: #1DB954;
+  font-weight: bold;
+}
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #1DB954;
+}
 
-    nav .menu a:hover {
-      text-decoration: underline;
-    }
+/* Hero Section */
+.hero {
+  height: 100vh;
+  background: url('https://021jayu.github.io/YTJPMUSIC021/bg.jpg') no-repeat center center/cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 80px;
+}
+.hero h1 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+.hero a {
+  padding: 10px 20px;
+  background: #1DB954;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
 
-    h1 {
-      color: #1DB954;
-      text-align: center;
-      font-size: 2rem;
-      margin: 25px 0 10px;
-    }
+/* Music Section */
+h2 {
+  text-align: center;
+  margin: 60px 0 20px;
+  color: #1DB954;
+}
+.song-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.song-box {
+  background: #181818;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px #1db95444;
+  transition: transform 0.3s ease;
+}
+.song-box:hover {
+  transform: translateY(-5px);
+}
+.thumbnail {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.song-details {
+  padding: 15px;
+}
+.song-details h3 {
+  color: #1DB954;
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+.song-details p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 4px 0;
+}
+.btn-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+.btn-group a {
+  flex: 1;
+  padding: 8px;
+  background: #1DB954;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
 
-    .categories {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #111;
+  margin-top: 50px;
+  color: #777;
+}
 
-    .categories button {
-      margin: 5px;
-      padding: 8px 15px;
-      background: #1DB954;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .categories button:hover {
-      background: #159f48;
-    }
-
-    .song-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 10px 20px 30px;
-    }
-
-    .song-box {
-      background: #181818;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px #1db95444;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .song-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px #1db954aa;
-    }
-
-    .thumbnail {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-    }
-
-    .song-details {
-      padding: 15px;
-    }
-
-    .song-details h3 {
-      color: #1DB954;
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-    }
-
-    .song-details p {
-      font-size: 0.9rem;
-      margin: 4px 0;
-      color: #ccc;
-    }
-
-    .btn-group {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-group a {
-      flex: 1;
-      padding: 8px;
-      background: #1DB954;
-      text-align: center;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 0.85rem;
-      transition: background 0.2s ease;
-    }
-
-    .btn-group a:hover {
-      background: #1aa34a;
-    }
-
-    .like {
-      background: #ff4444 !important;
-    }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">🎶 JAYU-STAR    -JP STAR</div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a href="categories.html">Categories</a>
-      <a href="login.html">Login</a>
+  <header>
+    <div class="logo">JAYU STR</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#music">Music</a>
+      <a href="category.html">Categories</a>
       <a href="profile.html">Profile</a>
       <a href="admin.html">Admin</a>
-    </div>
-  </nav>
-
-  <h1>🎵 Music Gallery 🎵</h1>
-
-  <!-- Categories -->
-  <div class="categories">
-    <button onclick="filterSongs('All')">All</button>
-    <button onclick="filterSongs('Timli')">Timli</button>
-    <button onclick="filterSongs('Hindi')">Hindi</button>
-    <button onclick="filterSongs('EDM Mix')">EDM Mix</button>
-    <button onclick="filterSongs('Chill Out Mix')">Chill Out Mix</button>
-    <button onclick="filterSongs('Mashup')">Mashup</button>
-  </div>
-
-  <div class="song-container" id="songContainer"></div>
-
-  <script>
+    </nav>
+  </header>  <section class="hero" id="home">
+    <h1>Welcome to JAYU STR Music</h1>
+    <p>Enjoy the latest hits and remixes</p>
+    <a href="#music">Explore Music</a>
+  </section>  <h2 id="music">🎵 Music Gallery 🎵</h2>
+  <div class="song-container" id="songContainer"></div>  <footer>
+    © 2025 JAYU STR. All rights reserved.
+  </footer>  <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
-    let allSongs = [];
 
     fetch(firebaseUrl)
       .then(res => res.json())
@@ -175,47 +167,29 @@
           return;
         }
 
-        allSongs = Object.values(data);
-        displaySongs(allSongs);
-      });
+        Object.values(data).forEach(song => {
+          const title = song.title || "Untitled Song";
+          const artist = song.artist || "Unknown Artist";
+          const category = song.category || "Uncategorized";
+          const driveLink = song.driveLink || "#";
+          const youtubeId = song.youtubeId || "";
 
-    function displaySongs(songs) {
-      const container = document.getElementById("songContainer");
-      container.innerHTML = "";
-
-      songs.forEach(song => {
-        const title = song.title || "Untitled Song";
-        const artist = song.artist || "Unknown Artist";
-        const category = song.category || "Uncategorized";
-        const driveLink = song.driveLink || "#";
-        const youtubeId = song.youtubeId || "";
-
-        const box = document.createElement("div");
-        box.className = "song-box";
-        box.innerHTML = `
-          <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
-          <div class="song-details">
-            <h3>${title}</h3>
-            <p>🎤 ${artist}</p>
-            <p>📁 ${category}</p>
-            <div class="btn-group">
-              <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
-              <a href="${driveLink}" target="_blank">⬇️ MP3</a>
+          const box = document.createElement("div");
+          box.className = "song-box";
+          box.innerHTML = `
+            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
+            <div class="song-details">
+              <h3>${title}</h3>
+              <p>🎤 ${artist}</p>
+              <p>📁 ${category}</p>
+              <div class="btn-group">
+                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
+                <a href="${driveLink}" target="_blank">⬇️ MP3</a>
+              </div>
             </div>
-          </div>
-        `;
-        container.appendChild(box);
+          `;
+          container.appendChild(box);
+        });
       });
-    }
-
-    function filterSongs(category) {
-      if (category === "All") {
-        displaySongs(allSongs);
-      } else {
-        const filtered = allSongs.filter(song => (song.category || "").toLowerCase() === category.toLowerCase());
-        displaySongs(filtered);
-      }
-    }
-  </script>
-</body>
+  </script></body>
 </html>
