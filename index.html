@@ -1,181 +1,143 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>YTJP Music Gallery</title>
   <style>
     body {
+      margin: 0;
       background: #0f0f0f;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
       scroll-behavior: smooth;
-    }.hero {
-  background: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?fit=crop&w=1400&q=80') no-repeat center center/cover;
-  height: 90vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    }
 
-.hero-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 40px;
-  text-align: center;
-  border-radius: 12px;
-}
+    header {
+      position: sticky;
+      top: 0;
+      background: #111;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
 
-.hero h1 {
-  font-size: 3rem;
-  color: #1DB954;
-  margin-bottom: 20px;
-}
+    .logo {
+      color: #1DB954;
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
 
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  color: #ccc;
-}
+    nav {
+      display: flex;
+      gap: 15px;
+    }
 
-.hero-btn {
-  background: #1DB954;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  color: black;
-  font-weight: bold;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: background 0.3s;
-}
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
 
-.hero-btn:hover {
-  background: #17a74a;
-}
+    nav a:hover {
+      background: #1DB954;
+      color: black;
+    }
 
-header {
-  position: sticky;
-  top: 0;
-  background: #1a1a1a;
-  padding: 15px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
-  z-index: 999;
-}
+    .hero {
+      background: url('https://img.freepik.com/free-photo/concert-crowd-silhouette_23-2149857045.jpg') no-repeat center center/cover;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1DB954;
-  text-decoration: none;
-}
+    .hero h1 {
+      font-size: 2.5rem;
+      color: #1DB954;
+      text-shadow: 2px 2px 4px #000;
+    }
 
-nav {
-  display: flex;
-  gap: 20px;
-}
+    .song-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background 0.3s, color 0.3s;
-}
+    .song-box {
+      background: #181818;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px #1db95433;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-nav a:hover {
-  background: #1DB954;
-  color: #000;
-}
+    .song-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #1db95488;
+    }
 
-h1 {
-  text-align: center;
-  color: #1DB954;
-  margin: 30px 0 10px;
-  font-size: 2.2rem;
-}
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid #1db95444;
+    }
 
-.song-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
+    .song-details {
+      padding: 15px;
+    }
 
-.song-box {
-  background: #181818;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 15px #1db95440;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .song-details h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+      color: #1DB954;
+    }
 
-.song-box:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 20px #1db95488;
-}
+    .song-details p {
+      margin: 4px 0;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
 
-.thumbnail {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-bottom: 1px solid #1db95433;
-}
+    .btn-group {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
 
-.song-details {
-  padding: 15px;
-}
+    .btn-group a {
+      flex: 1;
+      padding: 8px;
+      background: #1DB954;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
 
-.song-details h3 {
-  margin: 0 0 8px;
-  color: #1DB954;
-  font-size: 1.1rem;
-}
-
-.song-details p {
-  margin: 4px 0;
-  color: #ccc;
-  font-size: 0.9rem;
-}
-
-.btn-group {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.btn-group a {
-  flex: 1;
-  padding: 8px;
-  background: #1DB954;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
-}
-
-.btn-group a:hover {
-  background: #17a74a;
-}
-
+    .btn-group a:hover {
+      background: #14833b;
+    }
   </style>
 </head>
-<body>  <!-- HERO SECTION -->  <section class="hero">
-    <div class="hero-overlay">
-      <h1>🎵 Welcome to YTJP MUSIC 🎵</h1>
-      <p>Explore Timli, Hindi, EDM, Mashup & More</p>
-      <a href="#songs" class="hero-btn">Explore Music</a>
-    </div>
-  </section>  <!-- NAVIGATION -->  <header>
-    <a href="#" class="logo">🎵 YTJP MUSIC</a>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <a href="#home" class="logo">🎵 YTJP MUSIC</a>
     <nav>
       <a href="#home">Home</a>
       <a href="#songs">Music</a>
@@ -184,10 +146,21 @@ h1 {
       <a href="admin.html">Admin</a>
       <a href="login.html">Login</a>
     </nav>
-  </header>  <main id="home">
-    <h1 id="songs">🎶 Music Gallery 🎶</h1>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <h1>🎶 Welcome to YTJP Music Zone 🎶</h1>
+  </section>
+
+  <!-- SONG GALLERY -->
+  <main>
+    <h1 style="text-align:center; margin: 30px 0;" id="songs">🎼 Music Gallery 🎼</h1>
     <div class="song-container" id="songContainer"></div>
-  </main>  <script>
+  </main>
+
+  <!-- FIREBASE SONG LOAD SCRIPT -->
+  <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
     fetch(firebaseUrl)
@@ -223,5 +196,7 @@ h1 {
           container.appendChild(box);
         });
       });
-  </script></body>
+  </script>
+
+</body>
 </html>
