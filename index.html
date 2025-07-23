@@ -131,6 +131,42 @@
     .btn-group a:hover {
       background: #14833b;
     }
+    /* --- MOBILE RESPONSIVE FIX --- */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+    padding: 0 10px;
+  }
+
+  .song-container {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .song-box {
+    margin-bottom: 20px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn-group a {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
