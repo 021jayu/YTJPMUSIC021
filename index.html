@@ -5,29 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>YTJP Music Gallery</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       background: #0f0f0f;
       color: white;
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      scroll-behavior: smooth;
     }
 
     header {
       position: sticky;
       top: 0;
       background: #1a1a1a;
-      padding: 15px 30px;
+      padding: 15px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
       z-index: 999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #1DB954;
       text-decoration: none;
@@ -35,15 +37,16 @@
 
     nav {
       display: flex;
-      gap: 20px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background 0.3s, color 0.3s;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: 0.3s ease;
     }
 
     nav a:hover {
@@ -54,35 +57,34 @@
     h1 {
       text-align: center;
       color: #1DB954;
-      margin: 30px 0 10px;
-      font-size: 2.2rem;
+      margin: 20px 0;
     }
 
     .song-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
       padding: 20px;
     }
 
     .song-box {
       background: #181818;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 15px #1db95440;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px #1DB95440;
+      transition: 0.3s ease;
     }
 
     .song-box:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 0 20px #1db95488;
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #1DB95480;
     }
 
     .thumbnail {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 160px;
       object-fit: cover;
-      border-bottom: 1px solid #1db95433;
+      border-bottom: 1px solid #1DB95420;
     }
 
     .song-details {
@@ -91,8 +93,8 @@
 
     .song-details h3 {
       margin: 0 0 8px;
-      color: #1DB954;
       font-size: 1.1rem;
+      color: #1DB954;
     }
 
     .song-details p {
@@ -102,34 +104,39 @@
     }
 
     .btn-group {
-      margin-top: 10px;
       display: flex;
       gap: 10px;
+      margin-top: 10px;
     }
 
     .btn-group a {
       flex: 1;
-      padding: 8px;
       background: #1DB954;
-      color: white;
+      color: black;
       text-align: center;
-      text-decoration: none;
+      padding: 8px;
       border-radius: 5px;
+      text-decoration: none;
       font-weight: bold;
-      font-size: 0.85rem;
-      transition: background 0.2s ease;
+      transition: 0.3s ease;
     }
 
     .btn-group a:hover {
-      background: #17a74a;
+      background: #17a54b;
+    }
+
+    @media (max-width: 600px) {
+      .btn-group {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION -->
+  <!-- Navbar -->
   <header>
-    <a href="#" class="logo">🎵 YTJP MUSIC</a>
+    <a class="logo" href="#">🎵 YTJP MUSIC</a>
     <nav>
       <a href="#home">Home</a>
       <a href="#songs">Music</a>
@@ -140,11 +147,13 @@
     </nav>
   </header>
 
+  <!-- Main -->
   <main id="home">
     <h1 id="songs">🎶 Music Gallery 🎶</h1>
     <div class="song-container" id="songContainer"></div>
   </main>
 
+  <!-- Firebase Data -->
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
@@ -158,11 +167,11 @@
         }
 
         Object.values(data).forEach(song => {
-          const title = song.title || "Untitled Song";
+          const title = song.title || "Untitled";
           const artist = song.artist || "Unknown Artist";
-          const category = song.category || "Uncategorized";
-          const driveLink = song.driveLink || "#";
+          const category = song.category || "Misc";
           const youtubeId = song.youtubeId || "";
+          const driveLink = song.driveLink || "#";
 
           const box = document.createElement("div");
           box.className = "song-box";
@@ -173,7 +182,7 @@
               <p>🎤 ${artist}</p>
               <p>📁 ${category}</p>
               <div class="btn-group">
-                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
+                <a href="https://youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
                 <a href="${driveLink}" target="_blank">⬇️ MP3</a>
               </div>
             </div>
