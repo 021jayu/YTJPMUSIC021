@@ -1,141 +1,180 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YTJP Music</title>
+  <title>YTJP Music Gallery</title>
   <style>
     body {
-      margin: 0;
-      background-color: #0d0d0d;
-      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f0f;
       color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
       scroll-behavior: smooth;
-    }
+    }.hero {
+  background: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?fit=crop&w=1400&q=80') no-repeat center center/cover;
+  height: 90vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    /* Header */
-    header {
-      position: sticky;
-      top: 0;
-      background-color: #121212;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 32px;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    }
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 40px;
+  text-align: center;
+  border-radius: 12px;
+}
 
-    .logo {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #1db954;
-      text-decoration: none;
-    }
+.hero h1 {
+  font-size: 3rem;
+  color: #1DB954;
+  margin-bottom: 20px;
+}
 
-    nav {
-      display: flex;
-      gap: 18px;
-    }
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  color: #ccc;
+}
 
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #1db954;
-      color: #000;
-    }
-
-    /* Hero / Title */
-    h1 {
-      text-align: center;
-      font-size: 2.4rem;
-      margin: 40px 0 20px;
-      color: #1db954;
-    }
-
-    /* Song Grid */
-    .song-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px 30px 60px;
-    }
-
-    .song-box {
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 12px #1db95440;
-      transition: transform 0.3s ease;
-    }
-
-    .song-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 16px #1db95488;
-    }
-
-    .thumbnail {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      border-bottom: 1px solid #1db95430;
-    }
-
-    .song-details {
-      padding: 15px;
-    }
-
-    .song-details h3 {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-      color: #1db954;
-    }
-
-    .song-details p {
-      margin: 4px 0;
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .btn-group a {
-      flex: 1;
-      padding: 8px;
-      background: #1db954;
-      color: #000;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 0.85rem;
-      transition: 0.2s ease;
-    }
-
-    .btn-group a:hover {
-      background: #17a74a;
-    }
-    #explore a:hover {
+.hero-btn {
   background: #1DB954;
-  color: black !important;
-  transform: scale(1.05);
-    }
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.hero-btn:hover {
+  background: #17a74a;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background: #1a1a1a;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  z-index: 999;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1DB954;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+nav a:hover {
+  background: #1DB954;
+  color: #000;
+}
+
+h1 {
+  text-align: center;
+  color: #1DB954;
+  margin: 30px 0 10px;
+  font-size: 2.2rem;
+}
+
+.song-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.song-box {
+  background: #181818;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px #1db95440;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.song-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px #1db95488;
+}
+
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid #1db95433;
+}
+
+.song-details {
+  padding: 15px;
+}
+
+.song-details h3 {
+  margin: 0 0 8px;
+  color: #1DB954;
+  font-size: 1.1rem;
+}
+
+.song-details p {
+  margin: 4px 0;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.btn-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-group a {
+  flex: 1;
+  padding: 8px;
+  background: #1DB954;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+
+.btn-group a:hover {
+  background: #17a74a;
+}
+
   </style>
 </head>
-<body>
-
-  <!-- Header / Nav -->
-  <header>
+<body>  <!-- HERO SECTION -->  <section class="hero">
+    <div class="hero-overlay">
+      <h1>🎵 Welcome to YTJP MUSIC 🎵</h1>
+      <p>Explore Timli, Hindi, EDM, Mashup & More</p>
+      <a href="#songs" class="hero-btn">Explore Music</a>
+    </div>
+  </section>  <!-- NAVIGATION -->  <header>
     <a href="#" class="logo">🎵 YTJP MUSIC</a>
     <nav>
       <a href="#home">Home</a>
@@ -145,33 +184,16 @@
       <a href="admin.html">Admin</a>
       <a href="login.html">Login</a>
     </nav>
-  </header>
-<section id="explore" style="padding: 40px 20px; background: #121212;">
-  <h2 style="text-align:center; color:#1DB954; font-size:2rem;">🔥 Explore Music Categories</h2>
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px;">
-    <a href="#songs" style="background:#1DB954; color:black; padding:12px 20px; border-radius:30px; font-weight:bold; text-decoration:none; transition: all 0.3s;">All</a>
-    <a href="#songs" style="background:#282828; color:white; padding:12px 20px; border-radius:30px; text-decoration:none; transition: all 0.3s;">Timli</a>
-    <a href="#songs" style="background:#282828; color:white; padding:12px 20px; border-radius:30px; text-decoration:none; transition: all 0.3s;">Hindi</a>
-    <a href="#songs" style="background:#282828; color:white; padding:12px 20px; border-radius:30px; text-decoration:none; transition: all 0.3s;">EDM Mix</a>
-    <a href="#songs" style="background:#282828; color:white; padding:12px 20px; border-radius:30px; text-decoration:none; transition: all 0.3s;">Chill Out</a>
-    <a href="#songs" style="background:#282828; color:white; padding:12px 20px; border-radius:30px; text-decoration:none; transition: all 0.3s;">Mashup</a>
-  </div>
-</section>
-  <!-- Main Content -->
-  <main id="home">
+  </header>  <main id="home">
     <h1 id="songs">🎶 Music Gallery 🎶</h1>
     <div class="song-container" id="songContainer"></div>
-  </main>
-
-  <!-- Firebase Script -->
-  <script>
+  </main>  <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
     fetch(firebaseUrl)
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("songContainer");
-
         if (!data) {
           container.innerHTML = "<p style='text-align:center;'>No songs uploaded yet.</p>";
           return;
@@ -200,11 +222,6 @@
           `;
           container.appendChild(box);
         });
-      })
-      .catch(err => {
-        console.error("Failed to load songs:", err);
-        document.getElementById("songContainer").innerHTML = "<p>Error loading songs.</p>";
       });
-  </script>
-</body>
+  </script></body>
 </html>
