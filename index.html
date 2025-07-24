@@ -141,7 +141,7 @@
     }
 
     @keyframes slideshow {
-      0%   { background-image: url('https://i.ibb.co/Q7L60xgb/Whats-App-Image-2025-07-24-at-10-39-34-AM.jpg'); }
+      0%    { background-image: url('https://i.ibb.co/Q7L60xgb/Whats-App-Image-2025-07-24-at-10-39-34-AM.jpg'); }
       20%  { background-image: url('https://i.ibb.co/Ldgrspp2/Picsart-25-07-24-12-57-36-887.png'); }
       40%  { background-image: url('https://i.ibb.co/BVSg8BZf/Picsart-25-07-24-13-03-45-658.png'); }
       60%  { background-image: url('https://i.ibb.co/RpXxTSxp/Picsart-25-07-24-13-03-15-531.png'); }
@@ -153,6 +153,8 @@
       margin-bottom: 20px;
       padding: 0 10px;
       flex-wrap: wrap;
+      display: flex; /* Added for better button alignment */
+      justify-content: center; /* Added for better button alignment */
     }
 
     .category-filter button {
@@ -167,9 +169,11 @@
       transition: 0.3s ease;
     }
 
-    .category-filter button:hover {
+    .category-filter button:hover,
+    .category-filter button.active { /* Added active state */
       background: #17a74a;
-     /* SONG LIST */
+    }
+    /* SONG LIST */
     .songs-section {
       padding: 20px;
       max-width: 900px;
@@ -288,7 +292,6 @@
   </div>
 </section>
 
- <!-- SONGS SECTION -->
   <div class="category-filter" id="categoryFilter"></div>
   <section class="songs-section" id="songs">
     <h2 style="text-align:center; color:#1DB954;">🎼 Music Gallery 🎼</h2>
@@ -297,22 +300,21 @@
     </div>
   </section>
 
-  <!-- Firebase Song Loader -->
   <script>
-  const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
+    const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
+    let allSongs = []; // Store all songs for filtering
 
-  fetch(firebaseUrl)
-    .then(res => res.json())
-    .then(data => {
+    // Function to display songs based on category
+    function displaySongs(songsToDisplay) {
       const container = document.getElementById("songContainer");
       container.innerHTML = "";
 
-      if (!data) {
-        container.innerHTML = "<p style='text-align:center;'>No songs available.</p>";
+      if (songsToDisplay.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>No songs available for this category.</p>";
         return;
       }
 
-      Object.values(data).forEach(song => {
+      songsToDisplay.forEach(song => {
         const title = song.title || "Untitled Song";
         const artist = song.artist || "Unknown Artist";
         const category = song.category || "Uncategorized";
@@ -321,8 +323,9 @@
 
         const card = document.createElement("div");
         card.className = "song-card";
+        card.setAttribute('data-category', category); // Add data-category attribute for filtering
         card.innerHTML = `
-          <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
+          <img class="thumbnail" src="http://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
           <div class="song-info">
             <h3>${title}</h3>
             <p>🎤 ${artist}</p>
@@ -335,12 +338,72 @@
         `;
         container.appendChild(card);
       });
-    })
-    .catch(error => {
-      document.getElementById("songContainer").innerHTML = `<p style="text-align:center; color:red;">Error loading songs. Check Firebase connection.</p>`;
-      console.error("Firebase fetch error:", error);
-    });
-</script>
+    }
+
+    // Function to create category filter buttons
+    function createCategoryFilters(categories) {
+      const filterContainer = document.getElementById("categoryFilter");
+      filterContainer.innerHTML = "";
+
+      // Add "All" button
+      const allButton = document.createElement("button");
+      allButton.textContent = "All";
+      allButton.classList.add('active'); // Set "All" as active by default
+      allButton.addEventListener('click', () => {
+        displaySongs(allSongs);
+        updateActiveButton(allButton);
+      });
+      filterContainer.appendChild(allButton);
+
+      // Add buttons for each unique category
+      categories.forEach(category => {
+        const button = document.createElement("button");
+        button.textContent = category;
+        button.addEventListener('click', () => {
+          const filteredSongs = allSongs.filter(song => song.category === category);
+          displaySongs(filteredSongs);
+          updateActiveButton(button);
+        });
+        filterContainer.appendChild(button);
+      });
+    }
+
+    // Function to update active button styling
+    function updateActiveButton(activeButton) {
+      const buttons = document.querySelectorAll('#categoryFilter button');
+      buttons.forEach(button => button.classList.remove('active'));
+      activeButton.classList.add('active');
+    }
+
+    // Fetch songs from Firebase
+    fetch(firebaseUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (!data) {
+          document.getElementById("songContainer").innerHTML = "<p style='text-align:center;'>No songs available.</p>";
+          return;
+        }
+
+        allSongs = Object.values(data); // Store all fetched songs
+
+        // Get unique categories
+        const categories = [...new Set(allSongs.map(song => song.category || "Uncategorized"))];
+        createCategoryFilters(categories);
+
+        // Display all songs initially
+        displaySongs(allSongs);
+      })
+      .catch(error => {
+        document.getElementById("songContainer").innerHTML = `<p style="text-align:center; color:red;">Error loading songs. Check Firebase connection.</p>`;
+        console.error("Firebase fetch error:", error);
+      });
+
+    // Toggle menu for mobile
+    function toggleMenu() {
+      const navbar = document.getElementById("navbar");
+      navbar.classList.toggle("show");
+    }
+  </script>
 
 </body>
 </html>
