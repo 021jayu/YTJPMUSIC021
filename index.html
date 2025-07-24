@@ -61,51 +61,56 @@
 
     /* HERO SLIDER */
     .hero-slider {
-      position: relative;
-      height: 60vh;
-      overflow: hidden;
-    }
+  position: relative;
+  height: 60vh;
+  min-height: 320px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .hero-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      z-index: 1;
-    }
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+}
 
-    .hero-slide.active {
-      opacity: 1;
-    }
+.hero-slide.active {
+  opacity: 1;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-      color: white;
-      background: rgba(0,0,0,0.4);
-      padding: 20px;
-      border-radius: 10px;
-      margin: 0 20px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 90%;
+}
 
-    .hero-content h1 {
-      font-size: 2.4rem;
-      margin-bottom: 10px;
-      color: #1DB954;
-    }
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
 
-    .hero-content p {
-      font-size: 1.1rem;
-    }
+  .hero-content p {
+    font-size: 1rem;
+  }
 
+  .hero-slider {
+    height: 50vh;
+    min-height: 280px;
+  }
     /* SONG LIST */
     h2 {
       text-align: center;
