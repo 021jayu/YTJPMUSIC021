@@ -148,7 +148,27 @@
       80%  { background-image: url('https://i.ibb.co/j99C463m/Picsart-25-07-24-13-02-44-945.png'); }
       100% { background-image: url('https://i.ibb.co/1GwFZC1y/Picsart-25-07-24-13-02-15-129.png'); }
     }
+.category-filter {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 10px;
+      flex-wrap: wrap;
+    }
 
+    .category-filter button {
+      background: #1DB954;
+      color: white;
+      border: none;
+      margin: 5px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    .category-filter button:hover {
+      background: #17a74a;
      /* SONG LIST */
     .songs-section {
       padding: 20px;
@@ -269,6 +289,7 @@
 </section>
 
  <!-- SONGS SECTION -->
+  <div class="category-filter" id="categoryFilter"></div>
   <section class="songs-section" id="songs">
     <h2 style="text-align:center; color:#1DB954;">🎼 Music Gallery 🎼</h2>
     <div class="song-list" id="songContainer">
