@@ -1,149 +1,123 @@
-<!-- UPDATED index.html with Categories, Search, Sort, and Firebase Fallback -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YTJP Music Zone</title>
+  <title>Categories - YTJP MUSIC</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; }
-    nav { display: flex; justify-content: space-between; background: #111; padding: 10px 20px; }
-    nav a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
-    nav a:hover { color: #1DB954; }
-    .logo { font-size: 1.5rem; color: #1DB954; font-weight: bold; }
-    .songs-section, #categories { padding: 40px 20px; text-align: center; }
-    .song-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding-top: 20px; }
-    .song-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .song-card img { width: 100%; border-radius: 10px; }
-    .btn-group a { display: inline-block; margin: 5px; padding: 8px 12px; background: #1DB954; color: white; border-radius: 5px; text-decoration: none; }
-    .category-box { display: inline-block; margin: 5px; padding: 10px 15px; background: #ddd; border-radius: 25px; cursor: pointer; }
-    .category-box:hover { background: #1DB954; color: white; }
-    .filters { margin: 20px 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-    .filters input, .filters select { padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; }
+    body {
+      background: #0f0f0f;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      background: #1a1a1a;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      z-index: 999;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1DB954;
+      text-decoration: none;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background: #1DB954;
+      color: #000;
+    }
+    main {
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #1DB954;
+      margin: 20px 0;
+    }
+    .category-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .category-item {
+      background: #181818;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px #1db95440;
+      transition: transform 0.3s ease;
+    }
+    .category-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #1db954aa;
+    }
+    .category-item a {
+      color: #1DB954;
+      font-weight: bold;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <a class="logo" href="#home">🎵 YTJP MUSIC</a>
-    <div>
-      <a href="#home">Home</a>
-      <a href="#songs">Music</a>
-      <a href="#categories">Categories</a>
+  <header>
+    <a class="logo" href="index.html">🎵 YTJP MUSIC</a>
+    <nav>
+      <a href="index.html#home">Home</a>
+      <a href="index.html#songs">Music</a>
+      <a href="categories.html">Categories</a>
       <a href="profile.html">Profile</a>
       <a href="admin.html">Admin</a>
       <a href="login.html">Login</a>
+    </nav>
+  </header>
+  <main>
+    <h1>🎧 Music Categories</h1>
+    <div class="category-list" id="categoryList">
+      <!-- Categories will be loaded here -->
     </div>
-  </nav>
-
-  <section id="categories">
-    <h2>🎧 Browse by Categories</h2>
-    <div id="categoryFilter">Loading categories...</div>
-  </section>
-
-  <div class="filters">
-    <input type="text" id="searchInput" placeholder="🔍 Search by title...">
-    <select id="sortSelect">
-      <option value="none">Sort by</option>
-      <option value="date">🗓️ Date</option>
-      <option value="artist">🎤 Artist</option>
-    </select>
-  </div>
-
-  <section class="songs-section" id="songs">
-    <h2>🎼 Music Gallery 🎼</h2>
-    <div class="song-list" id="songContainer">Loading songs...</div>
-  </section>
-
+  </main>
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
-    let allSongs = [];
-
-    function renderSongs(songs) {
-      const container = document.getElementById("songContainer");
-      container.innerHTML = songs.length ? "" : "<p>No songs found.</p>";
-
-      songs.forEach(song => {
-        const title = song.title || "Untitled Song";
-        const artist = song.artist || "Unknown Artist";
-        const category = song.category || "Uncategorized";
-        const driveLink = song.driveLink || "#";
-        const youtubeId = song.youtubeId || "dQw4w9WgXcQ";
-
-        const card = document.createElement("div");
-        card.className = "song-card";
-        card.innerHTML = `
-          <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
-          <h3>${title}</h3>
-          <p>🎤 ${artist}</p>
-          <p>📁 ${category}</p>
-          <div class="btn-group">
-            <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶ YouTube</a>
-            <a href="${driveLink}" target="_blank">⬇ MP3</a>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function renderCategoryButtons(categories) {
-      const filterDiv = document.getElementById("categoryFilter");
-      filterDiv.innerHTML = "";
-
-      const allBtn = document.createElement("span");
-      allBtn.className = "category-box";
-      allBtn.textContent = "📀 All";
-      allBtn.onclick = () => filterAndRender();
-      filterDiv.appendChild(allBtn);
-
-      categories.forEach(cat => {
-        const btn = document.createElement("span");
-        btn.className = "category-box";
-        btn.textContent = cat;
-        btn.onclick = () => filterAndRender(cat);
-        filterDiv.appendChild(btn);
-      });
-    }
-
-    function filterAndRender(categoryFilter = null) {
-      let filtered = [...allSongs];
-
-      const search = document.getElementById("searchInput").value.toLowerCase();
-      const sort = document.getElementById("sortSelect").value;
-
-      if (categoryFilter) {
-        filtered = filtered.filter(song => song.category === categoryFilter);
-      }
-      if (search) {
-        filtered = filtered.filter(song => song.title?.toLowerCase().includes(search));
-      }
-      if (sort === "date") {
-        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-      } else if (sort === "artist") {
-        filtered.sort((a, b) => (a.artist || "").localeCompare(b.artist || ""));
-      }
-
-      renderSongs(filtered);
-    }
-
-    document.getElementById("searchInput").addEventListener("input", () => filterAndRender());
-    document.getElementById("sortSelect").addEventListener("change", () => filterAndRender());
 
     fetch(firebaseUrl)
       .then(res => res.json())
       .then(data => {
-        allSongs = data ? Object.values(data) : [];
-        const categories = [...new Set(allSongs.map(song => song.category).filter(Boolean))];
-        renderCategoryButtons(categories);
-        filterAndRender();
-      })
-      .catch(err => {
-        console.error("Using fallback data", err);
-        allSongs = [
-          { title: "Sample Song", artist: "Demo", category: "Timli", youtubeId: "dQw4w9WgXcQ", driveLink: "#", date: "2024-01-01" },
-          { title: "Another Hit", artist: "Test", category: "Hindi", youtubeId: "dQw4w9WgXcQ", driveLink: "#", date: "2024-02-01" },
-        ];
-        renderCategoryButtons(["Timli", "Hindi"]);
-        filterAndRender();
+        const categorySet = new Set();
+        Object.values(data || {}).forEach(song => {
+          if (song.category) categorySet.add(song.category);
+        });
+
+        const listContainer = document.getElementById("categoryList");
+        if (categorySet.size === 0) {
+          listContainer.innerHTML = "<p style='text-align:center;'>No categories found.</p>";
+          return;
+        }
+
+        categorySet.forEach(cat => {
+          const div = document.createElement("div");
+          div.className = "category-item";
+          div.innerHTML = `<a href="index.html#${cat.toLowerCase().replace(/\s+/g, '-')}">${cat}</a>`;
+          listContainer.appendChild(div);
+        });
       });
   </script>
 </body>
