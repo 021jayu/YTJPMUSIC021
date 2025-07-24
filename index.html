@@ -108,7 +108,18 @@
   80%  { background-image: url('https://i.ibb.co/j99C463m/Picsart-25-07-24-13-02-44-945.png'); }
   100% { background-image: url('https://i.ibb.co/1GwFZC1y/Picsart-25-07-24-13-02-15-129.png'); }
 }
-
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 65vh;
+  animation: slideshow 15s infinite;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .hero-slideshow .overlay {
   position: absolute;
   top: 0;
@@ -134,7 +145,45 @@
   margin-top: 10px;
   color: #eee;
 }
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
 
+.hero-title {
+  font-size: 2.8rem;
+  color: #1DB954;
+  margin: 0;
+  animation: fadein 2s ease-in-out;
+}
+
+.hero-subtext {
+  font-size: 1.2rem;
+  color: #eee;
+  margin-top: 15px;
+  animation: fadein 3s ease-in-out;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 50vh;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtext {
+    font-size: 1rem;
+  }
+}
     /* SONG LIST */
     .songs-section {
       padding: 20px;
@@ -244,6 +293,12 @@
     <h1>Welcome to JP MUSIC ZONE</h1>
     <p>Enjoy Timli, Hindi, EDM & More</p>
   </section>
+<section class="hero-section">
+  <div class="hero-overlay">
+    <h1 class="hero-title">🎵 Welcome to JP Music Zone</h1>
+    <p class="hero-subtext">Enjoy nonstop music. Browse new Timli, EDM, and Remix hits!</p>
+  </div>
+</section>
 
   <!-- SONGS SECTION -->
   <section class="songs-section" id="songs">
