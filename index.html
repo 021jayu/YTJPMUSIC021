@@ -49,97 +49,85 @@
       background: #1DB954;
       color: black;
     }
-   .hero {
-  background: url('<a href='https://postimg.cc/V5f2H4yM' target='_blank'><img src='https://i.postimg.cc/V5f2H4yM/Whats-App-Image-2025-07-24-at-10-39-34-AM-1.jpg' border='0' alt='Whats-App-Image-2025-07-24-at-10-39-34-AM-1'/></a>') no-repeat center center/cover;
-  height: 90vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 40px;
-  text-align: center;
-  border-radius: 12px;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  color: #1DB954;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  color: #ccc;
-}
-
-.hero-btn {
-  background: #1DB954;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  color: black;
-  font-weight: bold;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.hero-btn:hover {
-  background: #17a74a;
-}
-}
-   .hero {
-  background-image: url("https://ibb.co/bjgDWFxg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-}
-
+    /* HERO SLIDER */
+    .hero-slider {
+      position: relative;
+      height: 60vh;
+      overflow: hidden;
     }
 
-    .hero h1 {
-      font-size: 2.5rem;
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 1;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      background: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 0 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
       color: #1DB954;
-      text-shadow: 2px 2px 4px #000;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+    }
+
+    /* SONG LIST */
+    h2 {
+      text-align: center;
+      margin: 40px 0 20px;
+      color: #1DB954;
     }
 
     .song-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      padding: 30px;
+      padding: 20px;
     }
 
     .song-box {
       background: #181818;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 0 15px #1db95433;
+      box-shadow: 0 0 15px #1db95444;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .song-box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 20px #1db95488;
+      box-shadow: 0 0 20px #1db954aa;
     }
 
     .thumbnail {
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      border-bottom: 1px solid #1db95444;
+      border-bottom: 1px solid #1db95433;
     }
 
     .song-details {
@@ -147,15 +135,15 @@
     }
 
     .song-details h3 {
-      margin: 0 0 6px;
-      font-size: 1.1rem;
       color: #1DB954;
+      margin: 0 0 8px;
+      font-size: 1.1rem;
     }
 
     .song-details p {
+      font-size: 0.9rem;
       margin: 4px 0;
       color: #ccc;
-      font-size: 0.9rem;
     }
 
     .btn-group {
@@ -168,17 +156,27 @@
       flex: 1;
       padding: 8px;
       background: #1DB954;
-      color: white;
       text-align: center;
+      color: white;
       text-decoration: none;
       border-radius: 5px;
-      font-size: 0.85rem;
       font-weight: bold;
+      font-size: 0.85rem;
       transition: background 0.2s ease;
     }
 
     .btn-group a:hover {
-      background: #14833b;
+      background: #1aa34a;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
     }
     /* --- MOBILE RESPONSIVE FIX --- */
 @media (max-width: 768px) {
@@ -232,17 +230,14 @@
       <a href="login.html">Login</a>
     </nav>
   </header>
-<!-- HERO SECTION -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>🎵 JP MUSIC ZONE 🎵</h1>
-    <p>Feel the Beat. Download. Enjoy.</p>
-  </div>
-</section>
-
-  <!-- HERO SECTION -->
-  <section id="home" class="hero">
-    <h1>🎶 Welcome to YTJP Music Zone 🎶</h1>
+ <!-- HERO SECTION -->
+  <section class="hero-slider">
+    <div class="hero-slide active" style="background-image: url('https://i.ibb.co/hZGP8cf/photo1.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('https://i.ibb.co/wBLhB0x/photo2.jpg');"></div>
+    <div class="hero-content">
+      <h1>🎵 Welcome to JP MUSIC ZONE 🎵</h1>
+      <p>Enjoy Timli, Hindi, EDM & More</p>
+    </div>
   </section>
 <section class="hero">
   <div class="hero-overlay">
@@ -295,5 +290,15 @@
       });
   </script>
 
+  <!-- SLIDER SCRIPT -->
+  <script>
+    const slides = document.querySelectorAll(".hero-slide");
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 5000);
+  </script>
 </body>
 </html>
