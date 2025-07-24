@@ -240,49 +240,48 @@
 
   <!-- Firebase Song Loader -->
   <script>
-    const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
+  const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
-    fetch(firebaseUrl)
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("songContainer");
-        container.innerHTML = "";
+  fetch(firebaseUrl)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("songContainer");
+      container.innerHTML = "";
 
-        if (!data) {
-          container.innerHTML = "<p style='text-align:center;'>No songs available.</p>";
-          return;
-        }
+      if (!data) {
+        container.innerHTML = "<p style='text-align:center;'>No songs available.</p>";
+        return;
+      }
 
-        Object.values(data).forEach(song => {
-          const title = song.title || "Untitled Song";
-          const artist = song.artist || "Unknown Artist";
-          const category = song.category || "Uncategorized";
-          const driveLink = song.driveLink || "#";
-          const youtubeId = song.youtubeId || "";
+      Object.values(data).forEach(song => {
+        const title = song.title || "Untitled Song";
+        const artist = song.artist || "Unknown Artist";
+        const category = song.category || "Uncategorized";
+        const driveLink = song.driveLink || "#";
+        const youtubeId = song.youtubeId || "dQw4w9WgXcQ"; // fallback
 
-          const card = document.createElement("div");
-          card.className = "song-card";
-          card.innerHTML = 
-            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
-            <div class="song-info">
-              <h3>${title}</h3>
-              <p>🎤 ${artist}</p>
-              <p>📁 ${category}</p>
-              <div class="btn-group">
-                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶ YouTube</a>
-                <a href="${driveLink}" target="_blank">⬇ MP3</a>
-              </div>
+        const card = document.createElement("div");
+        card.className = "song-card";
+        card.innerHTML = `
+          <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
+          <div class="song-info">
+            <h3>${title}</h3>
+            <p>🎤 ${artist}</p>
+            <p>📁 ${category}</p>
+            <div class="btn-group">
+              <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶ YouTube</a>
+              <a href="${driveLink}" target="_blank">⬇ MP3</a>
             </div>
-          ;
-          container.appendChild(card);
-        });
+          </div>
+        `;
+        container.appendChild(card);
       });
-  </script>
+    })
+    .catch(error => {
+      document.getElementById("songContainer").innerHTML = `<p style="text-align:center; color:red;">Error loading songs. Check Firebase connection.</p>`;
+      console.error("Firebase fetch error:", error);
+    });
+</script>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("navbar").classList.toggle("show");
-    }
-  </script>
 </body>
 </html>
