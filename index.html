@@ -220,43 +220,59 @@
     </div>
   </section>
 
-  <div class="song-container" id="songContainer"></div>
+ <!-- SONGS SECTION -->
+  <section class="songs-section" id="songs">
+    <h2 style="text-align:center; color:#1DB954;">🎼 Music Gallery 🎼</h2>
+    <div class="song-list" id="songContainer">
+      <p style="text-align:center;">Loading songs...</p>
+    </div>
+  </section>
 
+  <!-- Firebase Song Loader -->
   <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navbar");
-      nav.classList.toggle("show");
-    }
-
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
     fetch(firebaseUrl)
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("songContainer");
+        container.innerHTML = "";
+
         if (!data) {
-          container.innerHTML = "<p style='text-align:center;'>No songs uploaded yet.</p>";
+          container.innerHTML = "<p style='text-align:center;'>No songs available.</p>";
           return;
         }
 
         Object.values(data).forEach(song => {
-          if (!song.title || !song.youtubeId || !song.driveLink) return;
+          const title = song.title || "Untitled Song";
+          const artist = song.artist || "Unknown Artist";
+          const category = song.category || "Uncategorized";
+          const driveLink = song.driveLink || "#";
+          const youtubeId = song.youtubeId || "";
 
-          const box = document.createElement("div");
-          box.className = "song-box";
-          box.innerHTML = `
-            <h3>${song.title}</h3>
-            <p>Artist: ${song.artist || 'Unknown'}</p>
-            <p>Category: ${song.category || 'General'}</p>
-            <div class="btn-group">
-              <a href="https://www.youtube.com/watch?v=${song.youtubeId}" target="_blank">▶️ YouTube</a>
-              <a href="${song.driveLink}" target="_blank">⬇️ MP3</a>
+          const card = document.createElement("div");
+          card.className = "song-card";
+          card.innerHTML = 
+            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
+            <div class="song-info">
+              <h3>${title}</h3>
+              <p>🎤 ${artist}</p>
+              <p>📁 ${category}</p>
+              <div class="btn-group">
+                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶ YouTube</a>
+                <a href="${driveLink}" target="_blank">⬇ MP3</a>
+              </div>
             </div>
-          `;
-          container.appendChild(box);
+          ;
+          container.appendChild(card);
         });
       });
   </script>
 
+  <script>
+    function toggleMenu() {
+      document.getElementById("navbar").classList.toggle("show");
+    }
+  </script>
 </body>
 </html>
