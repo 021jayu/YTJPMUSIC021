@@ -31,6 +31,7 @@
     }
     nav {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
     }
     nav a {
@@ -50,30 +51,36 @@
     h1 {
       text-align: center;
       color: #1DB954;
-      margin: 20px 0;
+      margin: 30px 0;
     }
     .category-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 10px;
     }
     .category-item {
-      background: #181818;
-      padding: 15px;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #1DB95444, #0f0f0f);
+      padding: 20px;
+      border-radius: 12px;
       text-align: center;
-      box-shadow: 0 0 10px #1db95440;
-      transition: transform 0.3s ease;
+      box-shadow: 0 0 10px #1db95433;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .category-item:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
       box-shadow: 0 0 15px #1db954aa;
     }
     .category-item a {
-      color: #1DB954;
-      font-weight: bold;
+      color: #fff;
+      font-weight: 600;
       text-decoration: none;
+      font-size: 1rem;
+      display: block;
+    }
+    .emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -89,12 +96,14 @@
       <a href="login.html">Login</a>
     </nav>
   </header>
+
   <main>
-    <h1>🎧 Music Categories</h1>
+    <h1>🎧 Explore by Categories</h1>
     <div class="category-list" id="categoryList">
-      <!-- Categories will be loaded here -->
+      <!-- Dynamic categories go here -->
     </div>
   </main>
+
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
@@ -103,7 +112,7 @@
       .then(data => {
         const categorySet = new Set();
         Object.values(data || {}).forEach(song => {
-          if (song.category) categorySet.add(song.category);
+          if (song.category) categorySet.add(song.category.trim());
         });
 
         const listContainer = document.getElementById("categoryList");
@@ -112,11 +121,18 @@
           return;
         }
 
+        const emojis = ["🎶", "🎵", "🔥", "🎧", "💿", "🎸", "🪩", "🎤", "💥"];
+        let i = 0;
+
         categorySet.forEach(cat => {
           const div = document.createElement("div");
           div.className = "category-item";
-          div.innerHTML = `<a href="index.html#${cat.toLowerCase().replace(/\s+/g, '-')}">${cat}</a>`;
+          div.innerHTML = `
+            <div class="emoji">${emojis[i % emojis.length]}</div>
+            <a href="index.html#${cat.toLowerCase().replace(/\s+/g, '-')}">${cat}</a>
+          `;
           listContainer.appendChild(div);
+          i++;
         });
       });
   </script>
