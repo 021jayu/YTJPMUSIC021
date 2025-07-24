@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,45 +11,24 @@
       background: #0f0f0f;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      scroll-behavior: smooth;
     }
 
     header {
       position: sticky;
       top: 0;
       background: #111;
-      padding: 15px 30px;
+      padding: 15px 25px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
     }
 
     .logo {
       color: #1DB954;
-      font-weight: bold;
       font-size: 1.5rem;
+      font-weight: bold;
       text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-
-    nav a:hover {
-      background: #1DB954;
-      color: black;
     }
 
     .menu-icon {
@@ -60,149 +38,25 @@
       cursor: pointer;
     }
 
-    /* HERO SLIDER */
-    .hero-slider {
-  position: relative;
-  height: 60vh;
-  min-height: 320px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-  z-index: 1;
-}
-
-.hero-slide.active {
-  opacity: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 90%;
-}
-
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 1.5rem;
-  }
-
-  .hero-content p {
-    font-size: 1rem;
-  }
-
-  .hero-slider {
-    height: 50vh;
-    min-height: 280px;
-  }
-    /* SONG LIST */
-    h2 {
-      text-align: center;
-      margin: 40px 0 20px;
-      color: #1DB954;
+    nav {
+      display: flex;
+      gap: 15px;
     }
 
-    .song-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 20px;
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background 0.3s;
     }
 
-  .song-box {
-  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 12px #1db95433;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  position: relative;
-  backdrop-filter: blur(4px);
-}
+    nav a:hover {
+      background: #1DB954;
+      color: black;
+    }
 
-.song-box:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 0 25px #1db95499, 0 0 10px #1db95444 inset;
-}
-
-.song-details {
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
-  border-top: 1px solid #1db95444;
-  border-radius: 0 0 16px 16px;
-}
-
-.song-details h3 {
-  color: #1DB954;
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
-}
-
-.song-box:hover .song-details h3 {
-  color: #7fffaf;
-}
-
-.song-details p {
-  font-size: 0.85rem;
-  margin: 3px 0;
-  color: #cccccc;
-  transition: color 0.3s ease;
-}
-
-.song-box:hover .song-details p {
-  color: #eeeeee;
-}
-
-.btn-group {
-  margin-top: 12px;
-  display: flex;
-  gap: 8px;
-}
-
-.btn-group a {
-  flex: 1;
-  padding: 10px;
-  background: linear-gradient(to right, #1DB954, #1aa34a);
-  text-align: center;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  transition: transform 0.2s ease, background 0.3s;
-}
-
-.btn-group a:hover {
-  background: linear-gradient(to right, #1aa34a, #1DB954);
-  transform: scale(1.05);
-}
-
-
-    /* MOBILE RESPONSIVE */
     @media (max-width: 768px) {
-      header {
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-
       .menu-icon {
         display: block;
       }
@@ -217,26 +71,113 @@
       nav.show {
         display: flex;
       }
+    }
 
-      .song-container {
-        grid-template-columns: 1fr;
-      }
+    /* HERO */
+    .hero {
+      background: url('https://i.ibb.co/VYW7zy2z/IMG-20250723-225211.jpg') center center / cover no-repeat;
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
 
-      .btn-group {
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px #000;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    /* SONG LIST */
+    .songs-section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .song-card {
+      display: flex;
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,255,127,0.2);
+      transition: transform 0.3s;
+    }
+
+    .song-card:hover {
+      transform: scale(1.01);
+    }
+
+    .thumbnail {
+      width: 160px;
+      object-fit: cover;
+    }
+
+    .song-info {
+      padding: 12px 16px;
+      flex: 1;
+    }
+
+    .song-info h3 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      color: #1DB954;
+    }
+
+    .song-info p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .btn-group {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-group a {
+      background: #1DB954;
+      padding: 8px 12px;
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      transition: background 0.3s;
+    }
+
+    .btn-group a:hover {
+      background: #17a74a;
+    }
+
+    @media (max-width: 768px) {
+      .song-card {
         flex-direction: column;
       }
 
-      .btn-group a {
+      .thumbnail {
         width: 100%;
+        height: 180px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header with Nav -->
+  <!-- HEADER -->
   <header>
-    <a href="#home" class="logo">🎵 YTJP MUSIC</a>
+    <a class="logo" href="#home">🎵 YTJP MUSIC</a>
     <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
     <nav id="navbar">
       <a href="#home">Home</a>
@@ -248,23 +189,21 @@
     </nav>
   </header>
 
-  <!-- HERO SECTION with Two Images -->
-  <section class="hero-slider">
-    <div class="hero-slide active" style="background-image: url('https://i.ibb.co/VYW7zy2z/IMG-20250723-225211.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('https://i.ibb.co/VYW7zy2z/IMG-20250723-225211.jpg');"></div>
-    <div class="hero-content">
-      <h1>🎵 Welcome to JP MUSIC ZONE 🎵</h1>
-      <p>Enjoy Timli, Hindi, EDM & More</p>
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <h1>Welcome to JP MUSIC ZONE</h1>
+    <p>Enjoy Timli, Hindi, EDM & More</p>
+  </section>
+
+  <!-- SONGS SECTION -->
+  <section class="songs-section" id="songs">
+    <h2 style="text-align:center; color:#1DB954;">🎼 Music Gallery 🎼</h2>
+    <div class="song-list" id="songContainer">
+      <p style="text-align:center;">Loading songs...</p>
     </div>
   </section>
 
-  <!-- SONG GALLERY -->
-  <main>
-    <h1 style="text-align:center; margin: 30px 0;" id="songs">🎼 Music Gallery 🎼</h1>
-    <div class="song-container" id="songContainer"></div>
-  </main>
-
-  <!-- Firebase Song Load Script -->
+  <!-- Firebase Song Loader -->
   <script>
     const firebaseUrl = "https://ytmusicdownload-d7404-default-rtdb.firebaseio.com/songs.json";
 
@@ -272,8 +211,10 @@
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("songContainer");
+        container.innerHTML = "";
+
         if (!data) {
-          container.innerHTML = "<p style='text-align:center;'>No songs uploaded yet.</p>";
+          container.innerHTML = "<p style='text-align:center;'>No songs available.</p>";
           return;
         }
 
@@ -284,35 +225,26 @@
           const driveLink = song.driveLink || "#";
           const youtubeId = song.youtubeId || "";
 
-          const box = document.createElement("div");
-          box.className = "song-box";
-          box.innerHTML = `
-            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}" />
-            <div class="song-details">
+          const card = document.createElement("div");
+          card.className = "song-card";
+          card.innerHTML = `
+            <img class="thumbnail" src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="${title}">
+            <div class="song-info">
               <h3>${title}</h3>
               <p>🎤 ${artist}</p>
               <p>📁 ${category}</p>
               <div class="btn-group">
-                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶️ YouTube</a>
-                <a href="${driveLink}" target="_blank">⬇️ MP3</a>
+                <a href="https://www.youtube.com/watch?v=${youtubeId}" target="_blank">▶ YouTube</a>
+                <a href="${driveLink}" target="_blank">⬇ MP3</a>
               </div>
             </div>
           `;
-          container.appendChild(box);
+          container.appendChild(card);
         });
       });
   </script>
 
-  <!-- Slider Script -->
   <script>
-    const slides = document.querySelectorAll(".hero-slide");
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove("active");
-      current = (current + 1) % slides.length;
-      slides[current].classList.add("active");
-    }, 5000);
-
     function toggleMenu() {
       document.getElementById("navbar").classList.toggle("show");
     }
